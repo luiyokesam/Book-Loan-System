@@ -12,4 +12,6 @@ package Entity;
 public class User {
     private String userName;
     private String userPassword;
+    
+    
 }
