@@ -15,24 +15,27 @@ public class Book {
     private String bookAuthor;
     private int bookYear;
     private String bookStatus;
+    private static String newBookID = "BOOK0000";
+
+    public Book(String bookID, String bookTitle, String bookAuthor, int bookYear, String bookStatus) {
+        this.bookID = getNewBookID();
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.bookYear = bookYear;
+        this.bookStatus = bookStatus;
+        newBookID = bookID;
+    }
 
     public Book(String bookTitle, String bookAuthor, int bookYear, String bookStatus) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookYear = bookYear;
         this.bookStatus = bookStatus;
-    }
-
-    public Book(String bookID, String bookTitle, String bookAuthor, int bookYear, String bookStatus) {
-        this.bookID = bookID;
-        this.bookTitle = bookTitle;
-        this.bookAuthor = bookAuthor;
-        this.bookYear = bookYear;
-        this.bookStatus = bookStatus;
+        newBookID = generateNewBookID();
     }
 
     public String getBookID() {
-        return bookID;
+        return generateNewBookID();
     }
 
     public void setBookID(String bookID) {
@@ -71,10 +74,36 @@ public class Book {
         this.bookStatus = bookStatus;
     }
 
+    public static String getNewBookID() {
+        return newBookID;
+    }
+
+    public static void setNewBookID(String newBookID) {
+        Book.newBookID = newBookID;
+    }
+    
+    private String generateNewBookID() {
+        String newid = null;
+        int number = Integer.parseInt(newBookID.substring(2)) + 1;
+
+        if (number < 10) {
+            newid = "OR00000" + String.valueOf(number);
+        } else if (number < 100) {
+            newid = "OR0000" + String.valueOf(number);
+        } else if (number < 1000) {
+            newid = "OR000" + String.valueOf(number);
+        } else if (number < 1000) {
+            newid = "OR00" + String.valueOf(number);
+        } else if (number < 10000) {
+            newid = "OR0" + String.valueOf(number);
+        } else if (number < 100000) {
+            newid = "OR" + String.valueOf(number);
+        }
+        return newid;
+    }
+
     @Override
     public String toString() {
         return "Book{" + "bookID=" + bookID + ", bookTitle=" + bookTitle + ", bookAuthor=" + bookAuthor + ", bookYear=" + bookYear + ", bookStatus=" + bookStatus + '}';
     }
-    
-    
 }
