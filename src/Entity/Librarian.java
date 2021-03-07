@@ -11,27 +11,40 @@ import java.util.Objects;
  *
  * @author My Pc
  */
-public class Librarian {
-    private String librarianID;
+public class Librarian extends User{
+    private int librarianID;
+    private static int nextlibrarianID = 1000;
 
-    public Librarian() {
-    }
-
-    public Librarian(String librarianID) {
+    public Librarian(int librarianID, String userName, String userPassword) {
+        super(userName, userPassword);
         this.librarianID = librarianID;
     }
+    
+     public Librarian(String userName, String userPassword) {
+        super(userName, userPassword);
+        this.librarianID = nextlibrarianID++;
+    }
 
-    public String getLibrarianID() {
+    public int getLibrarianID() {
         return librarianID;
     }
 
-    public void setLibrarianID(String librarianID) {
+    public void setLibrarianID(int librarianID) {
         this.librarianID = librarianID;
+    }
+
+    public static int getNextlibrarianID() {
+        return nextlibrarianID;
+    }
+
+    public static void setNextlibrarianID(int nextlibrarianID) {
+        Librarian.nextlibrarianID = nextlibrarianID;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.librarianID);
         return hash;
     }
 
@@ -55,7 +68,9 @@ public class Librarian {
 
     @Override
     public String toString() {
-        return "Librarian{" + "librarianID=" + librarianID + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Librarian{librarianID=").append(librarianID);
+        sb.append('}');
+        return sb.toString();
     }
-    
 }
