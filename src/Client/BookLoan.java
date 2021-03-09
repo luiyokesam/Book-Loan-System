@@ -5,13 +5,22 @@
  */
 package Client;
 
+import ADT.LList;
+import ADT.ListInterface;
+
+import Entity.BookLoanDetails;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Lui Yoke Sam
  */
 public class BookLoan extends javax.swing.JFrame {
+    private static ListInterface<BookLoanDetails> bookloanList = new LList<>();  
 
     /**
      * Creates new form BookLoan
@@ -35,19 +44,19 @@ public class BookLoan extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtBookLoanID = new javax.swing.JTextField();
-        txtLibrarianID = new javax.swing.JTextField();
-        txtMemberID = new javax.swing.JTextField();
+        txtStudentID = new javax.swing.JTextField();
         txtBookID = new javax.swing.JTextField();
         txtBookTitle = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         txtBorrowDate = new com.toedter.calendar.JDateChooser();
         txtReturnDate = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtPrice = new javax.swing.JTextField();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         txtBack = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -76,51 +85,81 @@ public class BookLoan extends javax.swing.JFrame {
 
         jLabel2.setText("Book Title:");
 
-        jLabel3.setText("Librarian ID:");
-
-        jLabel4.setText("Member ID:");
+        jLabel4.setText("Student ID:");
 
         jLabel5.setText("Borrow Date:");
 
         jLabel6.setText("Book Loan ID:");
 
-        jLabel7.setText("Return Date:");
+        txtBookLoanID.setEnabled(false);
+
+        txtStudentID.setEnabled(false);
+
+        jLabel7.setText("Due Date:");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        txtReturnDate.setEnabled(false);
+        txtReturnDate.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                txtReturnDateComponentShown(evt);
+            }
+        });
+
+        jLabel10.setText("Price:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd)
-                .addGap(21, 21, 21))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBookLoanID, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtBookLoanID, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                            .addComponent(txtLibrarianID)
-                            .addComponent(txtMemberID)
-                            .addComponent(txtBookTitle)
-                            .addComponent(txtBookID))
-                        .addGap(62, 62, 62))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtBookTitle)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtBookID, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtStudentID))
+                                        .addGap(67, 67, 67)))
+                                .addGap(19, 19, 19))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtBorrowDate, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtReturnDate, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtBorrowDate, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtReturnDate, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAdd)))
+                        .addGap(0, 35, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,12 +170,8 @@ public class BookLoan extends javax.swing.JFrame {
                     .addComponent(txtBookLoanID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtLibrarianID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtMemberID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -145,17 +180,21 @@ public class BookLoan extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBookTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(txtBorrowDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtReturnDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAdd)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Book Loan", jPanel1);
@@ -214,6 +253,15 @@ public class BookLoan extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        loanBook();
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtReturnDateComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_txtReturnDateComponentShown
+        // TODO add your handling code here:
+        // +3 day 
+    }//GEN-LAST:event_txtReturnDateComponentShown
+
     /**
      * @param args the command line arguments
      */
@@ -249,6 +297,34 @@ public class BookLoan extends javax.swing.JFrame {
         });
     }
     
+//    private DefaultTableModel callTable(){
+//        DefaultTableModel model = new DefaultTableModel();
+//        String[] header = {"BookID"};
+//        
+//        for(int i = 0; i < bookList.getLength; i++){
+//            model.addRow(new Object[]{booklist.getEntry(i).getXXX});
+//        }
+//        
+//        return model;
+//    }
+    
+    private void loanBook(){
+        String bookloanID = txtBookLoanID.getText();
+        String studentID = txtStudentID.getText();
+        String bookID = txtBookID.getText();
+        String bookTitle = txtBookTitle.getText();
+        double bookPrice = Double.parseDouble(txtPrice.getText());
+        String borrowDate = txtBorrowDate.toString("dd/MM/yyyy");
+        
+        
+    }
+    
+    private String set_current_date() {
+        LocalDateTime currentDate = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return currentDate.format(format);
+    }
+    
     public void setDateFormat(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String date = sdf.format(txtBorrowDate.getDate());
@@ -258,8 +334,8 @@ public class BookLoan extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JComboBox<String> cboSearchYear;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -276,9 +352,9 @@ public class BookLoan extends javax.swing.JFrame {
     private javax.swing.JTextField txtBookLoanID;
     private javax.swing.JTextField txtBookTitle;
     private com.toedter.calendar.JDateChooser txtBorrowDate;
-    private javax.swing.JTextField txtLibrarianID;
-    private javax.swing.JTextField txtMemberID;
+    private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtReturnDate;
     private javax.swing.JTextField txtSearchName;
+    private javax.swing.JTextField txtStudentID;
     // End of variables declaration//GEN-END:variables
 }
