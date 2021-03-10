@@ -5,6 +5,8 @@
  */
 package Client;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lui Yoke Sam
@@ -28,7 +30,7 @@ public class BookManagement extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableBook = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -51,7 +53,7 @@ public class BookManagement extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableBook.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -62,7 +64,7 @@ public class BookManagement extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableBook);
 
         jLabel1.setText("Book ID:");
 
@@ -80,6 +82,11 @@ public class BookManagement extends javax.swing.JFrame {
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(status()));
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnEdit.setText("Edit");
 
@@ -198,6 +205,10 @@ public class BookManagement extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        tableBook.setModel(callTable());
+    }//GEN-LAST:event_btnAddActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,6 +244,17 @@ public class BookManagement extends javax.swing.JFrame {
         });
     }
     
+    private DefaultTableModel callTable(){
+        DefaultTableModel model = new DefaultTableModel();
+        String[] header = {"BookID"};
+        
+        for(int i = 0; i < bookList.getLength; i++){
+            model.addRow(new Object[]{booklist.getEntry(i).getXXX});
+        }
+        
+        return model;
+    }
+    
     private String[] status(){
         String[] status = new String[2];
         status[0] = "Pending";
@@ -256,7 +278,7 @@ public class BookManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableBook;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookID;
     private javax.swing.JTextField txtBookTitle;

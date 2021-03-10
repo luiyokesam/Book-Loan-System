@@ -17,6 +17,7 @@ public class ArrList<T> implements ListInterface<T> {
 
     public ArrList() {
         this(DEFAULT_CAPACITY);
+        length = 0;
     }
 
     public ArrList(int initialCapacity) {
@@ -85,7 +86,7 @@ public class ArrList<T> implements ListInterface<T> {
     public T getEntry(int givenPosition) {
         T result = null;
 
-        if ((givenPosition >= 1) && (givenPosition <= length)) {
+        if ((givenPosition >= 0) && (givenPosition <= length)) {
             result = array[givenPosition];
         }
 

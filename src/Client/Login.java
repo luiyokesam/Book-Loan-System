@@ -9,7 +9,7 @@ import ADT.ArrList;
 import ADT.ListInterface;
 
 import Entity.Librarian;
-import Entity.Member;
+import Entity.Student;
 
 import javax.swing.JOptionPane;
 
@@ -19,10 +19,10 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     private static ListInterface<Librarian> librarianArrList = new ArrList<>();  
-    public static ListInterface<Member> memberArrList = new ArrList<>();
+    public static ListInterface<Student> memberArrList = new ArrList<>();
     
     public static boolean admin = false;
-    public static Member memberlogin = null;
+    public static Student memberlogin = null;
     /**
      * Creates new form Login
      */

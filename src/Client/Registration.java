@@ -253,8 +253,8 @@ public class Registration extends javax.swing.JFrame {
     
     public String formatList() {
         String outputStr = "";
-        for (int i = 0; i <= studentArrList.getLength(); ++i) {
-          outputStr += i + ". " + studentArrList.getEntry(i);
+        for (int i = 0; i <= studentArrList.getLength() - 1; ++i) {
+          outputStr += i + 1 + ". " + studentArrList.getEntry(i);
         }
         return outputStr;
     }
