@@ -5,7 +5,6 @@ package ADT;
  * with the node implemented as an inner class.
  */
 public class LList<T> implements ListInterface<T> {
-
     private Node firstNode; // reference to first node
     private int length;  	// number of entries in list
 

@@ -11,12 +11,8 @@ package Entity;
  */
 public class Student extends User{
     private String studentID;
-    private final int borrowLimit = 5;
+    private int borrowLimit = 5;
     private String facultyID;
-
-    public Student(String userName, String userPassword) {
-        super(userName, userPassword);
-    }
 
     public Student(String studentID, String userName, String facultyID, String userPassword) {
         super(userName, userPassword);
@@ -24,7 +20,6 @@ public class Student extends User{
 //        this.borrowLimit = borrowLimit;
         this.facultyID = facultyID;
     }
-    
 
     public String getStudentID() {
         return studentID;
@@ -38,9 +33,9 @@ public class Student extends User{
         return borrowLimit;
     }
 
-//    public void setBorrowLimit(int borrowLimit) {
-//        this.borrowLimit = borrowLimit;
-//    }
+    public void setBorrowLimit(int borrowLimit) {
+        this.borrowLimit = borrowLimit;
+    }
 
     public String getFacultyID() {
         return facultyID;

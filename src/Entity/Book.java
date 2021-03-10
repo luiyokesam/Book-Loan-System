@@ -15,22 +15,26 @@ public class Book {
     private String bookAuthor;
     private int bookYear;
     private String bookStatus;
+    private int bookQuantity;
+    
     private static String newBookID = "BOOK0000";
 
-    public Book(String bookID, String bookTitle, String bookAuthor, int bookYear, String bookStatus) {
+    public Book(String bookID, String bookTitle, String bookAuthor, int bookYear, String bookStatus, int bookQuantity) {
         this.bookID = getNewBookID();
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookYear = bookYear;
         this.bookStatus = bookStatus;
+        this.bookQuantity = bookQuantity;
         newBookID = bookID;
     }
 
-    public Book(String bookTitle, String bookAuthor, int bookYear, String bookStatus) {
+    public Book(String bookTitle, String bookAuthor, int bookYear, String bookStatus, int bookQuantity) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookYear = bookYear;
         this.bookStatus = bookStatus;
+        this.bookQuantity = bookQuantity;
         newBookID = generateNewBookID();
     }
 
@@ -74,6 +78,14 @@ public class Book {
         this.bookStatus = bookStatus;
     }
 
+    public int getBookQuantity() {
+        return bookQuantity;
+    }
+
+    public void setBookQuantity(int bookQuantity) {
+        this.bookQuantity = bookQuantity;
+    }
+    
     public static String getNewBookID() {
         return newBookID;
     }

@@ -5,8 +5,12 @@
  */
 package Entity;
 
+import static Client.PasswordRecovery.studentArrList;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -25,20 +29,64 @@ public class BookLoanDetails{
     
     private static String latestloanid = "L000000";
     
-    private String set_current_date() {
-        LocalDateTime currentDate = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return currentDate.format(format);
+//    private String set_current_date() {
+//        LocalDateTime currentDate = LocalDateTime.now();
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        return currentDate.format(format);
+//    }
+    
+    private String setBorrowDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 0);
+        Date today = calendar.getTime();
+        
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+        
+        String borrowdate = null;
+        
+        borrowdate = dateformat.format(today);
+//        txtBorrowDate.setText(borrowdate);
+
+        return borrowdate;
+    }
+    
+    private String setDueDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 3);
+        Date tomorrow = calendar.getTime();
+        
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+        
+        String duedate = null;
+        
+        duedate = dateformat.format(tomorrow);
+//        txtDueDate.setText(duedate);
+
+        return duedate;
     }
 
-    public BookLoanDetails(String loanID, String studentID, String borrowDate, Book[] book, String dueDate, String returnDate, String loanStatus) {
+    public boolean BookLoanDetails(String loanID, String studentID, String borrowDate, Book[] book, String dueDate, String returnDate, String loanStatus) {
         this.loanID = getnewloanid();
         this.studentID = studentID;
-        this.borrowDate = borrowDate;
+        this.borrowDate = setBorrowDate();
         this.book = book;
-        this.dueDate = dueDate;
+        this.dueDate = setDueDate();
         this.returnDate = returnDate;
         this.loanStatus = loanStatus;
+        
+        // put in payment
+        for(int i = 0; i < studentArrList.getLength(); i++){
+            if(studentArrList.getEntry(i).getStudentID().equals(studentID)){
+                if(book.length > studentArrList.getEntry(i).getBorrowLimit()){
+                    return false;
+                }
+                else{
+                    studentArrList.getEntry(i).setBorrowLimit(studentArrList.getEntry(i).getBorrowLimit() - book.length);
+                    break;
+                }
+            }
+        }
+        return true;
     }
 
     public String getLoanID() {
