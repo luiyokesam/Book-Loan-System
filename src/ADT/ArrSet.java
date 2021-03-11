@@ -57,6 +57,33 @@ public class ArrSet<T> implements SetInterface<T>{
         return false;
     }
     
+     @Override
+     public T getEntry(int givenPosition) {
+        T result = null;
+
+        if ((givenPosition >= 0) && (givenPosition <= numberOfElement)) {
+            result = array[givenPosition];
+        }
+
+        return result;
+    }
+     @Override
+    public boolean replace(int givenPosition, T newEntry) {
+        boolean isSuccessful = true;
+
+        if ((givenPosition >= 0) && (givenPosition <= numberOfElement)) {
+            array[givenPosition] = newEntry;
+        } else {
+            isSuccessful = false;
+        }
+
+        return isSuccessful;
+    }
+     
+    public int getLength() {
+        return numberOfElement;
+    }
+    
     public void removeGap(int index){
         for(int i = 0; i < numberOfElement; i++){
             array[i] = array[i + 1];

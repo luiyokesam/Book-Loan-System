@@ -14,32 +14,20 @@ public class Book {
     private String bookTitle;
     private String bookAuthor;
     private int bookYear;
-    private String bookStatus;
     private int bookQuantity;
-    
-    private static String newBookID = "BOOK0000";
+    private double bookPrice;
 
-    public Book(String bookID, String bookTitle, String bookAuthor, int bookYear, String bookStatus, int bookQuantity) {
-        this.bookID = getNewBookID();
+    public Book(String bookID, String bookTitle, String bookAuthor, int bookYear, int bookQuantity, double bookPrice) {
+        this.bookID = bookID;
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookYear = bookYear;
-        this.bookStatus = bookStatus;
         this.bookQuantity = bookQuantity;
-        newBookID = bookID;
-    }
-
-    public Book(String bookTitle, String bookAuthor, int bookYear, String bookStatus, int bookQuantity) {
-        this.bookTitle = bookTitle;
-        this.bookAuthor = bookAuthor;
-        this.bookYear = bookYear;
-        this.bookStatus = bookStatus;
-        this.bookQuantity = bookQuantity;
-        newBookID = generateNewBookID();
+        this.bookPrice = bookPrice;
     }
 
     public String getBookID() {
-        return generateNewBookID();
+        return bookID;
     }
 
     public void setBookID(String bookID) {
@@ -70,14 +58,6 @@ public class Book {
         this.bookYear = bookYear;
     }
 
-    public String getBookStatus() {
-        return bookStatus;
-    }
-
-    public void setBookStatus(String bookStatus) {
-        this.bookStatus = bookStatus;
-    }
-
     public int getBookQuantity() {
         return bookQuantity;
     }
@@ -85,37 +65,19 @@ public class Book {
     public void setBookQuantity(int bookQuantity) {
         this.bookQuantity = bookQuantity;
     }
-    
-    public static String getNewBookID() {
-        return newBookID;
+
+    public double getBookPrice() {
+        return bookPrice;
     }
 
-    public static void setNewBookID(String newBookID) {
-        Book.newBookID = newBookID;
-    }
-    
-    private String generateNewBookID() {
-        String newid = null;
-        int number = Integer.parseInt(newBookID.substring(2)) + 1;
-
-        if (number < 10) {
-            newid = "OR00000" + String.valueOf(number);
-        } else if (number < 100) {
-            newid = "OR0000" + String.valueOf(number);
-        } else if (number < 1000) {
-            newid = "OR000" + String.valueOf(number);
-        } else if (number < 1000) {
-            newid = "OR00" + String.valueOf(number);
-        } else if (number < 10000) {
-            newid = "OR0" + String.valueOf(number);
-        } else if (number < 100000) {
-            newid = "OR" + String.valueOf(number);
-        }
-        return newid;
+    public void setBookPrice(double bookPrice) {
+        this.bookPrice = bookPrice;
     }
 
     @Override
     public String toString() {
-        return "Book{" + "bookID=" + bookID + ", bookTitle=" + bookTitle + ", bookAuthor=" + bookAuthor + ", bookYear=" + bookYear + ", bookStatus=" + bookStatus + '}';
+        return "Book{" + "bookID=" + bookID + ", bookTitle=" + bookTitle + ", bookAuthor=" + bookAuthor + ", bookYear=" + bookYear + ", bookQuantity=" + bookQuantity + ", bookPrice=" + bookPrice + '}';
     }
+    
+   
 }

@@ -16,5 +16,8 @@ public interface SetInterface<T>{
     public void union(SetInterface anotherSet);
     public SetInterface intersection(SetInterface anotherSet);
     public boolean isEmpty();
+    public int getLength();
+    public T getEntry(int givenPosition);
+    public boolean replace(int givenPosition, T newEntry);
     
 }
