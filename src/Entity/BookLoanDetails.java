@@ -5,7 +5,8 @@
  */
 package Entity;
 
-import static Client.PasswordRecovery.studentArrList;
+import static Client.Data.studentArrList;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +24,7 @@ public class BookLoanDetails{
     private String borrowDate;
     // bookID, bookTitle, bookPrice
     Book[] book;
+    private double totalprice = 0.00;
     private String dueDate;
     private String returnDate;
     private String loanStatus = "Pending";
@@ -34,6 +36,17 @@ public class BookLoanDetails{
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //        return currentDate.format(format);
 //    }
+    
+    private double subTotal(){
+        double subtotal;
+        
+        return subTotal;
+    }
+    
+    public BookLoanDetails(Book[] books) {
+        this.book = books;
+        this.totalprice = calculatetotalprice();
+    }
     
     private String setBorrowDate(){
         Calendar calendar = Calendar.getInstance();

@@ -5,25 +5,23 @@
  */
 package Client;
 
-import ADT.ArrSet;
-import ADT.SetInterface;
+import static Client.Data.bookSetList;
 import Entity.Book;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Lui Yoke Sam
+ * @author Sor Boon Ping
  */
 public class BookManagement extends javax.swing.JFrame {
-
-    
-    private static SetInterface<Book> bookArrSet = new ArrSet<>();
     private int SelectedRow;
+
     /**
      * Creates new form BookManagement
      */
     public BookManagement() {
         initComponents();
+        displayTable();
     }
 
     /**
@@ -110,19 +108,7 @@ public class BookManagement extends javax.swing.JFrame {
             }
         });
 
-        txtBookQty.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBookQtyActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Price(RM):");
-
-        txtBookPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBookPriceActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -245,36 +231,24 @@ public class BookManagement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
-         if (btnAdd.getText().equals("New")) {
+        if (btnAdd.getText().equals("New")) {
             btnAdd.setText("Add");
             generateID();
-         }else{
-             clearTable();
-             newBook();
-             reset();
-             displayTable();
-             btnAdd.setText("New");
-         }
-        
-        
-        
+        } 
+        else{
+            clearTable();
+            newBook();
+            reset();
+            displayTable();
+            btnAdd.setText("New");
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void txtBookQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBookQtyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBookQtyActionPerformed
-
-    private void txtBookPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBookPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBookPriceActionPerformed
-
     private void tableBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBookMouseClicked
-        // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableBook.getModel();
         int viewRow = tableBook.getSelectedRow();
         int modelRow = tableBook.convertRowIndexToModel(viewRow);
-        
+
         SelectedRow = modelRow;
         txtBookID.setText(model.getValueAt(modelRow, 0).toString());
         txtBookTitle.setText(model.getValueAt(modelRow, 1).toString());
@@ -282,20 +256,17 @@ public class BookManagement extends javax.swing.JFrame {
         txtYear.setText(model.getValueAt(modelRow, 3).toString());
         txtBookQty.setText(model.getValueAt(modelRow, 4).toString());
         txtBookPrice.setText(model.getValueAt(modelRow, 5).toString());
-
     }//GEN-LAST:event_tableBookMouseClicked
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
         clearTable();
         deleteBook();
         displayTable();
-        reset(); displayTable();
+        reset();
+        displayTable();
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-        
         editBook();
         reset();
         clearTable();
@@ -336,26 +307,25 @@ public class BookManagement extends javax.swing.JFrame {
             }
         });
     }
-    
-     public void generateID() {
 
-        int id = bookArrSet.getLength() + 1;
+    public void generateID() {
+        int id = bookSetList.getLength() + 1;
         String code = null;
 
-        if (id < 10) {
+        if(id < 10){
             code = "BK00";
-        } else if (id < 100) {
+        }else if(id < 100){
             code = "BK0";
-        } else {
+        }else{
             code = "BK";
         }
+        
         String newID = Integer.toString(id);
         String codeName = code + newID;
         txtBookID.setText(codeName);
-
     }
-     
-      public void newBook() {
+
+    public void newBook() {
         String BookId = txtBookID.getText();
         String BookTitle = txtBookTitle.getText();
         String BookAuthor = txtAuthor.getText();
@@ -363,55 +333,47 @@ public class BookManagement extends javax.swing.JFrame {
         int BookQuantity = Integer.parseInt(txtBookQty.getText());
         double BookPrice = Double.parseDouble(txtBookPrice.getText());
 
-        Book newBook = new Book(BookId, BookTitle, BookAuthor,BookYear,BookQuantity,BookPrice);
-        bookArrSet.add(newBook);
-
+        Book newBook = new Book(BookId, BookTitle, BookAuthor, BookYear, BookQuantity, BookPrice);
+        bookSetList.add(newBook);
     }
-      
-     public void displayTable() {
+
+    public void displayTable() {
         DefaultTableModel model = (DefaultTableModel) tableBook.getModel();
 
-        for (int i = 0; i < bookArrSet.getLength(); ++i) {
-            Object[] data = {bookArrSet.getEntry(i).getBookID(), bookArrSet.getEntry(i).getBookTitle(), bookArrSet.getEntry(i).getBookAuthor(),bookArrSet.getEntry(i).getBookYear(),bookArrSet.getEntry(i).getBookQuantity(),bookArrSet.getEntry(i).getBookPrice()};
+        for (int i = 0; i < bookSetList.getLength(); ++i) {
+            Object[] data = {bookSetList.getEntry(i).getBookID(), bookSetList.getEntry(i).getBookTitle(), bookSetList.getEntry(i).getBookAuthor(), bookSetList.getEntry(i).getBookYear(), bookSetList.getEntry(i).getBookQuantity(), bookSetList.getEntry(i).getBookPrice()};
             model.addRow(data);
-           
         }
-     
     }
-     
-    public void clearTable(){
-         DefaultTableModel model = (DefaultTableModel) tableBook.getModel();
-         model.setRowCount(0);
-    }
-     
-    public void deleteBook(){
-         String BookID = txtBookID.getText();
-        
-         for (int i = 0; i < bookArrSet.getLength(); ++i) {
-              if(bookArrSet.getEntry(i).getBookID().equals(BookID)){
-                  bookArrSet.remove(bookArrSet.getEntry(i));
-              }
-         }
 
-   }
-     
-    public void editBook(){
-              
+    public void clearTable() {
+        DefaultTableModel model = (DefaultTableModel) tableBook.getModel();
+        model.setRowCount(0);
+    }
+
+    public void deleteBook() {
+        String BookID = txtBookID.getText();
+
+        for (int i = 0; i < bookSetList.getLength(); ++i) {
+            if (bookSetList.getEntry(i).getBookID().equals(BookID)) {
+                bookSetList.remove(bookSetList.getEntry(i));
+            }
+        }
+    }
+
+    public void editBook() {
         String BookId = txtBookID.getText();
         String BookTitle = txtBookTitle.getText();
         String BookAuthor = txtAuthor.getText();
-        int BookYear = Integer.parseInt(txtYear.getText());       
+        int BookYear = Integer.parseInt(txtYear.getText());
         int BookQuantity = Integer.parseInt(txtBookQty.getText());
         double BookPrice = Double.parseDouble(txtBookPrice.getText());
-        
-        Book bk = new Book(BookId,BookTitle,BookAuthor,BookYear,BookQuantity,BookPrice);        
-        bookArrSet.replace(SelectedRow, bk);
-        
-       
+
+        Book bk = new Book(BookId, BookTitle, BookAuthor, BookYear, BookQuantity, BookPrice);
+        bookSetList.replace(SelectedRow, bk);
     }
- 
-     
-    public void reset(){
+
+    public void reset() {
         txtBookID.setText("");
         txtBookTitle.setText("");
         txtAuthor.setText("");

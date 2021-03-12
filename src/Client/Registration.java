@@ -5,21 +5,18 @@
  */
 package Client;
 
-import ADT.ArrList;
-import ADT.ListInterface;
+import static Client.Data.studentArrList;
 
 import Entity.Student;
 
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Lui Yoke Sam
  */
-public class Registration extends javax.swing.JFrame {
-    private static ListInterface<Student> studentArrList = new ArrList<>();  
-
+public class Registration extends javax.swing.JFrame { 
+    
     /**
      * Creates new form Registration
      */

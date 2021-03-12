@@ -5,8 +5,11 @@
  */
 package Client;
 
+import Client.Data.*;
+
 import ADT.ArrList;
 import ADT.ListInterface;
+import static Client.Data.studentArrList;
 
 import Entity.Student;
 import javax.swing.JOptionPane;
@@ -16,7 +19,6 @@ import javax.swing.JOptionPane;
  * @author Lui Yoke Sam
  */
 public class PasswordRecovery extends javax.swing.JFrame {
-    public static ListInterface<Student> studentArrList = new ArrList<>();
 
     /**
      * Creates new form PasswordRecovery

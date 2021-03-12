@@ -5,12 +5,9 @@
  */
 package Client;
 
-import Client.Data.*;
+import static Client.Data.studentArrList;
 
-import ADT.ArrList;
-import ADT.ListInterface;
-import static Client.Data.librarianArrList;
-import static Client.PasswordRecovery.studentArrList;
+//import Client.PasswordRecovery.studentArrList;
 
 import Entity.Librarian;
 import Entity.Student;
@@ -223,9 +220,10 @@ public class Login extends javax.swing.JFrame {
         for(int i = 0; i < studentArrList.getLength(); i++){  
             System.out.println(studentArrList.getEntry(i));
             if(studentArrList.getEntry(i).getStudentID().equals(txtUserID.getText()) && 
-                    studentArrList.getEntry(i).getUserPassword().equals(String.copyValueOf(txtPassword.getPassword()))){
+                    studentArrList.getEntry(i).getUserPassword().equals(txtPassword.getText())){
                 login = true;
                 JOptionPane.showMessageDialog(null, txtUserID.getText() + " Successful Login!");  
+                
                 BookLoan bookloan = new BookLoan();
                 bookloan.setVisible(true);
                 this.setVisible(false);
@@ -233,22 +231,32 @@ public class Login extends javax.swing.JFrame {
                 break;
            }
         }
-
-        System.out.println(librarianArrList.getLength());
-        for(int i = 0; i < librarianArrList.getLength(); i++){  
-            System.out.println(librarianArrList.getEntry(i));
-            if(librarianArrList.getEntry(i).getLibrarianID() == (Integer.parseInt(txtUserID.getText())) && 
-                    librarianArrList.getEntry(i).getUserPassword().equals(String.copyValueOf(txtPassword.getPassword()))){
-                login = true;
-                JOptionPane.showMessageDialog(null, "ADMIN Successful Login!");  
-                admin = true;
-                Home home = new Home();
-                home.setVisible(true);
-                this.setVisible(false);
-                this.dispose();
-                break;
-           }
+        
+        if(txtUserID.getText().equals("admin") && txtPassword.getText().equals("admin")){
+            login = true;
+            JOptionPane.showMessageDialog(null, "ADMIN Successful Login!");  
+            admin = true;
+            Home home = new Home();
+            home.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         }
+
+//        System.out.println(librarianArrList.getLength());
+//        for(int i = 0; i < librarianArrList.getLength(); i++){  
+//            System.out.println(librarianArrList.getEntry(i));
+//            if(librarianArrList.getEntry(i).getLibrarianID() == (Integer.parseInt(txtUserID.getText())) && 
+//                    librarianArrList.getEntry(i).getUserPassword().equals(String.copyValueOf(txtPassword.getPassword()))){
+//                login = true;
+//                JOptionPane.showMessageDialog(null, "ADMIN Successful Login!");  
+//                admin = true;
+//                Home home = new Home();
+//                home.setVisible(true);
+//                this.setVisible(false);
+//                this.dispose();
+//                break;
+//           }
+//        }
         
         if(login == false){
             JOptionPane.showMessageDialog(null, "INVALID LOGIN INFO!");
