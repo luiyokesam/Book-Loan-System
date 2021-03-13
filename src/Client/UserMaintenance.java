@@ -6,8 +6,9 @@
 package Client;
 
 import static Client.Data.studentArrList;
+
 import Entity.Student;
-import javax.swing.JOptionPane;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -274,7 +275,8 @@ public class UserMaintenance extends javax.swing.JFrame {
 
         for (int i = 0; i < studentArrList.getLength(); ++i) {
             if (studentArrList.getEntry(i).getStudentID().equals(studID)) {
-                studentArrList.remove(studentArrList.getEntry(i));
+                studentArrList.remove(i);
+//                studentArrList.remove(studentArrList.getEntry(i));
             }
         }
     }
@@ -287,7 +289,7 @@ public class UserMaintenance extends javax.swing.JFrame {
         for(int i = 0; i < studentArrList.getLength(); i++){
             if(studentArrList.getEntry(i).getStudentID().equals(studID)){
                 Student stud = new Student(studID, studName, faculty);
-                studentArrList.replace(i, stud)
+                studentArrList.replace(i, stud);
             }
         }
     }
@@ -296,6 +298,12 @@ public class UserMaintenance extends javax.swing.JFrame {
         txtStudentID.setText("");
         txtName.setText("");
         cboFaculty.getSelectedItem().equals(0);
+    }
+    
+    private String[] faculty(){
+        String[] faculty = new String[4];
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

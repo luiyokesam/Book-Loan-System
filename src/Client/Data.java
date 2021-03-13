@@ -5,16 +5,18 @@
  */
 package Client;
 
-import ADT.ArrList;
+import ADT.ArrList; // 
 import ADT.ArrSet;
 import ADT.LList;
+import ADT.LinkedQueue;
 
 import ADT.ListInterface;
+import ADT.QueueInterface;
 import ADT.SetInterface;
 
 import Entity.Book;
 import Entity.BookLoanDetails;
-import Entity.Librarian;
+import Entity.Librarian; //
 import Entity.Student;
 
 import javax.swing.JFrame;
@@ -24,12 +26,10 @@ import javax.swing.JFrame;
  * @author Lui Yoke Sam
  */
 public class Data {
-    public static ListInterface<Librarian> librarianArrList = new ArrList<>();  
-    public static ListInterface<Student> studentArrList = new ArrList<>();
-    
-    public static ListInterface<BookLoanDetails> bookloanLList = new LList<>(); 
-    
+//    public static ListInterface<Librarian> librarianArrList = new ArrList<>();  
+    public static ListInterface<Student> studentArrList = new LList<>();
     public static SetInterface<Book> bookSetList = new ArrSet<>(); 
+    public static QueueInterface<BookLoanDetails> bookloanLList = new LinkedQueue<>();
     
     public static void main(String[] args){
         InitialRecord();

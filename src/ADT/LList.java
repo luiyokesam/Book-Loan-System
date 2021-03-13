@@ -40,15 +40,15 @@ public class LList<T> implements ListInterface<T> {
     public boolean add(int newPosition, T newEntry) { // OutOfMemoryError possible
         boolean isSuccessful = true;
 
-        if ((newPosition >= 1) && (newPosition <= length + 1)) {
+        if ((newPosition >= 0) && (newPosition <= length)) {
             Node newNode = new Node(newEntry);
 
-            if (isEmpty() || (newPosition == 1)) { // case 1: add to beginning of list
+            if (isEmpty() || (newPosition == 0)) { // case 1: add to beginning of list
                 newNode.next = firstNode;
                 firstNode = newNode;
             } else {								// case 2: list is not empty and newPosition > 1
                 Node nodeBefore = firstNode;
-                for (int i = 1; i < newPosition - 1; ++i) {
+                for (int i = 1; i < newPosition; ++i) {
                     nodeBefore = nodeBefore.next;		// advance nodeBefore to its next node
                 }
 
@@ -68,13 +68,13 @@ public class LList<T> implements ListInterface<T> {
     public T remove(int givenPosition) {
         T result = null;                 // return value
 
-        if ((givenPosition >= 1) && (givenPosition <= length)) {
-            if (givenPosition == 1) {      // case 1: remove first entry
+        if ((givenPosition >= 0) && (givenPosition <= length)) {
+            if (givenPosition == 0) {      // case 1: remove first entry
                 result = firstNode.data;     // save entry to be removed
                 firstNode = firstNode.next;
             } else {                         // case 2: givenPosition > 1
                 Node nodeBefore = firstNode;
-                for (int i = 1; i < givenPosition - 1; ++i) {
+                for (int i = 1; i < givenPosition; ++i) {
                     nodeBefore = nodeBefore.next;		// advance nodeBefore to its next node
                 }
                 result = nodeBefore.next.data;  // save entry to be removed
@@ -91,9 +91,9 @@ public class LList<T> implements ListInterface<T> {
     public boolean replace(int givenPosition, T newEntry) {
         boolean isSuccessful = true;
 
-        if ((givenPosition >= 1) && (givenPosition <= length)) {
+        if ((givenPosition >= 0) && (givenPosition <= length)) {
             Node currentNode = firstNode;
-            for (int i = 0; i < givenPosition - 1; ++i) {
+            for (int i = 0; i < givenPosition; ++i) {
                 currentNode = currentNode.next;		// advance currentNode to next node
             }
             currentNode.data = newEntry;	// currentNode is pointing to the node at givenPosition
@@ -108,9 +108,9 @@ public class LList<T> implements ListInterface<T> {
     public T getEntry(int givenPosition) {
         T result = null;
 
-        if ((givenPosition >= 1) && (givenPosition <= length)) {
+        if ((givenPosition >= 0) && (givenPosition <= length)) {
             Node currentNode = firstNode;
-            for (int i = 0; i < givenPosition - 1; ++i) {
+            for (int i = 0; i < givenPosition; ++i) {
                 currentNode = currentNode.next;		// advance currentNode to next node
             }
             result = currentNode.data;	// currentNode is pointing to the node at givenPosition
@@ -141,11 +141,7 @@ public class LList<T> implements ListInterface<T> {
 
     @Override
     public boolean isEmpty() {
-        boolean result;
-
-        result = length == 0;
-
-        return result;
+        return length == 0;
     }
 
     @Override
