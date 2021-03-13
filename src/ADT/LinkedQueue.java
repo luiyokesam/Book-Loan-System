@@ -19,6 +19,7 @@ public class LinkedQueue<T> implements QueueInterface<T> {
         lastNode = null;
     }
 
+    @Override
     public void enqueue(T newEntry) {
         Node newNode = new Node(newEntry, null);
 
@@ -31,6 +32,7 @@ public class LinkedQueue<T> implements QueueInterface<T> {
         lastNode = newNode;
     }
 
+    @Override
     public T getFront() {
         T front = null;
 
@@ -41,6 +43,7 @@ public class LinkedQueue<T> implements QueueInterface<T> {
         return front;
     }
 
+    @Override
     public T dequeue() {
         T front = null;
 
@@ -56,17 +59,18 @@ public class LinkedQueue<T> implements QueueInterface<T> {
         return front;
     } // end dequeue
 
+    @Override
     public boolean isEmpty() {
         return (firstNode == null) && (lastNode == null);
     }
 
+    @Override
     public void clear() {
         firstNode = null;
         lastNode = null;
     }
 
     private class Node {
-
         private T data;
         private Node next;
 

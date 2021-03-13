@@ -5,7 +5,7 @@
  */
 package Client;
 
-import static Client.Data.studentArrList;
+import static Client.Data.studentLList;
 
 import Entity.Student;
 
@@ -48,7 +48,6 @@ public class Registration extends javax.swing.JFrame {
         cboFaculty = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
-        btnShow = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
@@ -82,25 +81,18 @@ public class Registration extends javax.swing.JFrame {
             }
         });
 
-        btnShow.setText("Show");
-        btnShow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtPassword))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
@@ -113,20 +105,17 @@ public class Registration extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cboFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 58, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtConfirmPassword))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnShow)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnClear)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnRegister)))
-                        .addGap(32, 32, 32)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,13 +141,11 @@ public class Registration extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegister)
-                    .addComponent(btnClear))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(btnShow)
-                .addGap(23, 23, 23))
+                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         btnBack.setText("Back");
@@ -209,16 +196,11 @@ public class Registration extends javax.swing.JFrame {
         else{
             register();
         }
-        
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         clear();
     }//GEN-LAST:event_btnClearActionPerformed
-
-    private void btnShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowActionPerformed
-        JOptionPane.showMessageDialog(null, formatList());
-    }//GEN-LAST:event_btnShowActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         Login login = new Login();
@@ -282,15 +264,15 @@ public class Registration extends javax.swing.JFrame {
         }
         if(register == true && password.equals(repassword)){
             Student newStudent = new Student(studID, studName, facultyID, password);
-            studentArrList.add(newStudent);
+            studentLList.add(newStudent);
             clear();
         }
     }
     
     public String formatList() {
         String outputStr = "";
-        for (int i = 0; i <= studentArrList.getLength() - 1; ++i) {
-          outputStr += i + 1 + ". " + studentArrList.getEntry(i);
+        for (int i = 0; i <= studentLList.getLength() - 1; ++i) {
+          outputStr += i + 1 + ". " + studentLList.getEntry(i);
         }
         return outputStr;
     }
@@ -305,6 +287,7 @@ public class Registration extends javax.swing.JFrame {
     
     private String[] faculty(){
         String[] status = new String[4];
+        
         status[0] = "   ";
         status[1] = "FOCS";
         status[2] = "FAFB";
@@ -316,7 +299,6 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnRegister;
-    private javax.swing.JButton btnShow;
     private javax.swing.JComboBox<String> cboFaculty;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

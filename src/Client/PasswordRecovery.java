@@ -7,9 +7,7 @@ package Client;
 
 import Client.Data.*;
 
-import ADT.ArrList;
-import ADT.ListInterface;
-import static Client.Data.studentArrList;
+import static Client.Data.studentLList;
 
 import Entity.Student;
 import javax.swing.JOptionPane;
@@ -26,7 +24,6 @@ public class PasswordRecovery extends javax.swing.JFrame {
     public PasswordRecovery() {
         initComponents();
         disablePassword();
-        InitialRecord();
     }
 
     /**
@@ -275,10 +272,10 @@ public class PasswordRecovery extends javax.swing.JFrame {
         
         boolean valid = false;
         
-        for(int i = 0; i < studentArrList.getLength(); i++){
-            if((studentArrList.getEntry(i).getStudentID().equals(studID)) && 
-                    (studentArrList.getEntry(i).getUserName().equals(studName)) &&
-                            (studentArrList.getEntry(i).getFacultyID().equals(faculty))){
+        for(int i = 0; i < studentLList.getLength(); i++){
+            if((studentLList.getEntry(i).getStudentID().equals(studID)) && 
+                    (studentLList.getEntry(i).getUserName().equals(studName)) &&
+                            (studentLList.getEntry(i).getFacultyID().equals(faculty))){
                 valid = true;
                 enablePassword();
             }
@@ -304,11 +301,11 @@ public class PasswordRecovery extends javax.swing.JFrame {
 //        boolean yesno = false;
         
         if(newpass.equals(confirmpass)){
-            for(int i = 0; i < studentArrList.getLength(); i++){
-                if((studentArrList.getEntry(i).getStudentID().equals(studID))){
-                    studentArrList.getEntry(i).setUserPassword(newpass);
+            for(int i = 0; i < studentLList.getLength(); i++){
+                if((studentLList.getEntry(i).getStudentID().equals(studID))){
+                    studentLList.getEntry(i).setUserPassword(newpass);
                     Student studchgpw = new Student(studID, studName, studFaculty, newpass);
-                    studentArrList.replace(i, studchgpw);
+                    studentLList.replace(i, studchgpw);
                     System.out.print(studchgpw);
                     
                     resetAll();
@@ -320,22 +317,6 @@ public class PasswordRecovery extends javax.swing.JFrame {
             txtConfirmPassword.setText("");
             JOptionPane.showMessageDialog(null, "PASSWORD NOT MATCH!");
         }
-    }
-    
-    private static void InitialRecord(){
-//        Librarian librarian1 = new Librarian(1000, "admin", "admin");
-        
-//        librarianArrList.add(librarian1);
-        
-        Student student1 = new Student("20WMR08935", "Lui Yoke Sam", "FOCS", "admin");
-        Student student2 = new Student("1002", "Jason", "FOCS", "admin");
-        Student student3 = new Student("1003", "Sor", "FOCS", "admin");
-        Student student4 = new Student("1004", "Wong", "FOCS", "admin");
-        
-        studentArrList.add(student1);
-        studentArrList.add(student2);
-        studentArrList.add(student3);
-        studentArrList.add(student4);
     }
     
     private String[] faculty(){

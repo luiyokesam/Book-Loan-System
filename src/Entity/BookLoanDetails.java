@@ -37,15 +37,53 @@ public class BookLoanDetails{
 //        return currentDate.format(format);
 //    }
     
-    private double subTotal(){
-        double subtotal;
+    private double calculatetotalprice(){
+        double total = 0;
         
-        return subTotal;
+        for (Book books : this.book) {
+            total += books.getBookPrice() * books.getBookQuantity();
+        }
+        return Math.round(total);
     }
     
     public BookLoanDetails(Book[] books) {
         this.book = books;
         this.totalprice = calculatetotalprice();
+    }
+    
+    // import data
+    public BookLoanDetails(String loanID, String studentID, String borrowDate, Book[] book, String dueDate, String returnDate, String loanStatus) {
+        this.loanID = getnewloanid();
+        this.studentID = studentID;
+        this.borrowDate = setBorrowDate();
+        this.book = book;
+        this.dueDate = setDueDate();
+        this.returnDate = returnDate;
+        this.loanStatus = loanStatus;
+    }
+    
+    public boolean BookLoanDetails(String studentID, Book[] book, String returnDate, String loanStatus) {
+        this.loanID = getnewloanid();
+        this.studentID = studentID;
+        this.borrowDate = setBorrowDate();
+        this.book = book;
+        this.dueDate = setDueDate();
+        this.returnDate = returnDate;
+        this.loanStatus = loanStatus;
+        
+        // put in payment
+        for(int i = 0; i < studentArrList.getLength(); i++){
+            if(studentArrList.getEntry(i).getStudentID().equals(studentID)){
+                if(book.length > studentArrList.getEntry(i).getBorrowLimit()){
+                    return false;
+                }
+                else{
+                    studentArrList.getEntry(i).setBorrowLimit(studentArrList.getEntry(i).getBorrowLimit() - book.length);
+                    break;
+                }
+            }
+        }
+        return true;
     }
     
     private String setBorrowDate(){
@@ -77,31 +115,7 @@ public class BookLoanDetails{
 
         return duedate;
     }
-
-    public boolean BookLoanDetails(String loanID, String studentID, String borrowDate, Book[] book, String dueDate, String returnDate, String loanStatus) {
-        this.loanID = getnewloanid();
-        this.studentID = studentID;
-        this.borrowDate = setBorrowDate();
-        this.book = book;
-        this.dueDate = setDueDate();
-        this.returnDate = returnDate;
-        this.loanStatus = loanStatus;
-        
-        // put in payment
-        for(int i = 0; i < studentArrList.getLength(); i++){
-            if(studentArrList.getEntry(i).getStudentID().equals(studentID)){
-                if(book.length > studentArrList.getEntry(i).getBorrowLimit()){
-                    return false;
-                }
-                else{
-                    studentArrList.getEntry(i).setBorrowLimit(studentArrList.getEntry(i).getBorrowLimit() - book.length);
-                    break;
-                }
-            }
-        }
-        return true;
-    }
-
+    
     public String getLoanID() {
         return loanID;
     }

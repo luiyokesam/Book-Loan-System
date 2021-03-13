@@ -5,7 +5,7 @@
  */
 package Client;
 
-import static Client.Data.studentArrList;
+import static Client.Data.studentLList;
 
 //import Client.PasswordRecovery.studentArrList;
 
@@ -216,11 +216,11 @@ public class Login extends javax.swing.JFrame {
     private void login(){
         boolean login = false; 
         
-        System.out.println(studentArrList.getLength());
-        for(int i = 0; i < studentArrList.getLength(); i++){  
-            System.out.println(studentArrList.getEntry(i));
-            if(studentArrList.getEntry(i).getStudentID().equals(txtUserID.getText()) && 
-                    studentArrList.getEntry(i).getUserPassword().equals(txtPassword.getText())){
+        System.out.println(studentLList.getLength());
+        for(int i = 0; i < studentLList.getLength(); i++){  
+            System.out.println(studentLList.getEntry(i));
+            if(studentLList.getEntry(i).getStudentID().equals(txtUserID.getText()) && 
+                    studentLList.getEntry(i).getUserPassword().equals(txtPassword.getText())){
                 login = true;
                 JOptionPane.showMessageDialog(null, txtUserID.getText() + " Successful Login!");  
                 

@@ -66,7 +66,15 @@ public class BookManagement extends javax.swing.JFrame {
             new String [] {
                 "Book ID", "Book Title", "Author", "Year", "Quantiti", "Price(RM)"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableBookMouseClicked(evt);

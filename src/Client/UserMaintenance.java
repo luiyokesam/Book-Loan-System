@@ -5,10 +5,11 @@
  */
 package Client;
 
-import static Client.Data.studentArrList;
+import static Client.Data.studentLList;
 
 import Entity.Student;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +24,9 @@ public class UserMaintenance extends javax.swing.JFrame {
      */
     public UserMaintenance() {
         initComponents();
+        clearTable();
+        displayTable();
+        disableText();
     }
 
     /**
@@ -47,22 +51,34 @@ public class UserMaintenance extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         tableStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Student ID", "Name", "Faculty", "Password"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableStudent.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableStudentMouseClicked(evt);
@@ -119,6 +135,10 @@ public class UserMaintenance extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel1.setText("Password:");
+
+        txtPassword.setEnabled(false);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -133,14 +153,14 @@ public class UserMaintenance extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel11)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel12))
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName)
                             .addComponent(txtStudentID)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(cboFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(cboFaculty, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPassword))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -158,7 +178,11 @@ public class UserMaintenance extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(cboFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -185,10 +209,8 @@ public class UserMaintenance extends javax.swing.JFrame {
                 .addComponent(btnBack)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(75, 75, 75))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -203,23 +225,46 @@ public class UserMaintenance extends javax.swing.JFrame {
         SelectedRow = modelRow;
         txtStudentID.setText(model.getValueAt(modelRow, 0).toString());
         txtName.setText(model.getValueAt(modelRow, 1).toString());
-        cboFaculty.getSelectedItem().equals(model.getValueAt(modelRow, 2).toString());
+        cboFaculty.setSelectedItem(model.getValueAt(modelRow, 2).toString());
+        txtPassword.setText(model.getValueAt(modelRow, 3).toString());
     }//GEN-LAST:event_tableStudentMouseClicked
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        editStudent();
-        reset();
-        clearTable();
-        displayTable();
+        if(!txtStudentID.getText().equals("")){
+            if(btnEdit.getText().equals("Edit")){ 
+                enableText();
+                tableStudent.setEnabled(false);
+                
+                btnDelete.setEnabled(false);
+                btnBack.setEnabled(false);
+                
+                btnEdit.setText("Save");
+            }
+            else{
+                editStudent();
+            }
+        }
+        else{
+           JOptionPane.showMessageDialog(null, "PLEASE SELECT A ROW!");
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        clearTable();
-        deleteStudent();
-        displayTable();
-        reset();
-        displayTable();
+        if(!txtStudentID.getText().equals("")){
+            deleteStudent();
+            reset();
+        }
+        else{
+           JOptionPane.showMessageDialog(null, "PLEASE SELECT A ROW!");
+       }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        Home h = new Home();
+        h.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,61 +301,104 @@ public class UserMaintenance extends javax.swing.JFrame {
         });
     }
     
-    public void displayTable() {
+    private void displayTable() {
         DefaultTableModel model = (DefaultTableModel) tableStudent.getModel();
 
-        for (int i = 0; i < studentArrList.getLength(); ++i) {
-            Object[] data = {studentArrList.getEntry(i).getStudentID(), studentArrList.getEntry(i).getUserName(), studentArrList.getEntry(i).getFacultyID()};
+        disableText();
+        
+        for (int i = 0; i < studentLList.getLength(); ++i) {
+            Object[] data = {studentLList.getEntry(i).getStudentID(), studentLList.getEntry(i).getUserName(), studentLList.getEntry(i).getFacultyID(), studentLList.getEntry(i).getUserPassword()};
             model.addRow(data);
         }
     }
 
-    public void clearTable() {
+    private void clearTable() {
         DefaultTableModel model = (DefaultTableModel) tableStudent.getModel();
         model.setRowCount(0);
     }
 
-    public void deleteStudent() {
+    private void deleteStudent() {
         String studID = txtStudentID.getText();
 
-        for (int i = 0; i < studentArrList.getLength(); ++i) {
-            if (studentArrList.getEntry(i).getStudentID().equals(studID)) {
-                studentArrList.remove(i);
+        for (int i = 0; i < studentLList.getLength(); ++i) {
+            if (studentLList.getEntry(i).getStudentID().equals(studID)) {
+                studentLList.remove(i);
 //                studentArrList.remove(studentArrList.getEntry(i));
+                JOptionPane.showMessageDialog(null, "UPDATE SUCCESFULLY!");
+                clearTable();
             }
         }
+        displayTable();
     }
 
-    public void editStudent() {
+    private void editStudent() {
         String studID = txtStudentID.getText();
         String studName = txtName.getText();
         String faculty = cboFaculty.getSelectedItem().toString();
+        String password = txtPassword.getText();
 
-        for(int i = 0; i < studentArrList.getLength(); i++){
-            if(studentArrList.getEntry(i).getStudentID().equals(studID)){
-                Student stud = new Student(studID, studName, faculty);
-                studentArrList.replace(i, stud);
+        boolean edit = true;
+        
+        enableText();
+        
+        if(studID.equals("") || studName.equals("") || cboFaculty.getSelectedIndex() == 0 || password.equals("")){
+                edit = false;
+                JOptionPane.showMessageDialog(null, "FILL UP ALL DETAILS!");
+        }
+        
+        if(edit == true){
+            for(int i = 0; i < studentLList.getLength(); i++){
+                if(studentLList.getEntry(i).getStudentID().equals(studID)){
+                    Student stud = new Student(studID, studName, faculty, password);
+                    studentLList.replace(i, stud);
+                    JOptionPane.showMessageDialog(null, "UPDATE SUCCESFULLY!");
+                    btnEdit.setText("Edit");
+                    disableText();
+                    reset();
+                    tableStudent.setEnabled(true);
+                    btnDelete.setEnabled(true);
+                    btnBack.setEnabled(true);
+                    clearTable();
+                }
             }
         }
+        displayTable();
     }
 
-    public void reset() {
+    private void reset() {
         txtStudentID.setText("");
         txtName.setText("");
-        cboFaculty.getSelectedItem().equals(0);
+        cboFaculty.setSelectedIndex(0);
+        txtPassword.setText("");
     }
     
     private String[] faculty(){
-        String[] faculty = new String[4];
+        String[] status = new String[4];
         
+        status[0] = "   ";
+        status[1] = "FOCS";
+        status[2] = "FAFB";
+        status[3] = "FOAS";
         
+        return status;
     }
-
+    
+    private void disableText(){
+        txtName.setEnabled(false);
+        cboFaculty.setEnabled(false);
+    }
+    
+    private void enableText(){
+        txtName.setEnabled(true);
+        cboFaculty.setEnabled(true);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> cboFaculty;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
@@ -319,6 +407,7 @@ public class UserMaintenance extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableStudent;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtStudentID;
     // End of variables declaration//GEN-END:variables
 }
