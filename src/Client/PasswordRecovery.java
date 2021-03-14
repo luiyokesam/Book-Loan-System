@@ -284,7 +284,7 @@ public class PasswordRecovery extends javax.swing.JFrame {
         if(valid == false){
             txtStudentID.setText("");
             txtName.setText("");
-            cboFaculty.getSelectedItem().equals(0);
+            cboFaculty.setSelectedIndex(0);
             disablePassword();
             JOptionPane.showMessageDialog(null, "WRONG USER DETAILS!");
         }

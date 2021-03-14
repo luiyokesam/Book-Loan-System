@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
  * @author Lui Yoke Sam
  */
 public class Login extends javax.swing.JFrame {
-    
     public static boolean admin = false;
     public static Student memberlogin = null;
     /**
@@ -223,7 +222,7 @@ public class Login extends javax.swing.JFrame {
                     studentLList.getEntry(i).getUserPassword().equals(txtPassword.getText())){
                 login = true;
                 JOptionPane.showMessageDialog(null, txtUserID.getText() + " Successful Login!");  
-                
+                memberlogin = studentLList.getEntry(i);
                 BookLoan bookloan = new BookLoan();
                 bookloan.setVisible(true);
                 this.setVisible(false);

@@ -29,7 +29,7 @@ public class Data {
 //    public static ListInterface<Librarian> librarianArrList = new ArrList<>();  
     public static ListInterface<Student> studentLList = new LList<>();
     public static SetInterface<Book> bookSetList = new ArrSet<>(); 
-    public static QueueInterface<BookLoanDetails> bookloanLList = new LinkedQueue<>();
+    public static ListInterface<BookLoanDetails> bookloanArrList = new ArrList<>();
     
     public static void main(String[] args){
         InitialRecord();
@@ -56,11 +56,17 @@ public class Data {
         Book book2 = new Book("B002", "Where the Crawdads Sing", "Delia Owens", 2019, 3, 4.50);
         Book book3 = new Book("B003", "They Both Die at the End", "Adam Silvera", 2012, 3, 5.80);
         Book book4 = new Book("B004", "Breach of Peace", "Daniel B Greene", 2017, 3, 3.10);
+        Book book5 = new Book("B005", "test5", "Daniel B Greene", 2017, 3, 3.10);
+        Book book6 = new Book("B006", "test6", "Daniel B Greene", 2017, 3, 3.10);
+        Book book7 = new Book("B007", "test7", "Daniel B Greene", 2017, 3, 3.10);
         
         bookSetList.add(book1);
         bookSetList.add(book2);
         bookSetList.add(book3);
         bookSetList.add(book4);
+        bookSetList.add(book5);
+        bookSetList.add(book6);
+        bookSetList.add(book7);
         
 //        System.out.println(studentArrList.getLength());
     }

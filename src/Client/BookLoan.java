@@ -5,8 +5,11 @@
  */
 package Client;
 
+import ADT.ArrList;
+import ADT.ListInterface;
 import static Client.Data.bookSetList;
-import static Client.Data.bookloanLList;
+import static Client.Data.bookloanArrList;
+import static Client.Login.memberlogin;
 
 import Entity.Book;
 import Entity.BookLoanDetails;
@@ -20,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BookLoan extends javax.swing.JFrame {
     public static BookLoanDetails loanbook = null;
+    private ListInterface<Book> orderedBook = new ArrList<>();
+    private BookLoanDetails calPrice;
 
     /**
      * Creates new form BookLoan
@@ -31,9 +36,6 @@ public class BookLoan extends javax.swing.JFrame {
         
         tableBook.setModel(insert_book_data());
         tableBookLoan.setModel(insert_loan_data());
-        if(loanbook != null){
-            txtSubTotal.setText(get_sub_total_price());
-        }
 //        setCurrentDate();
 //        getDueDate();
     }
@@ -72,7 +74,6 @@ public class BookLoan extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableBookLoan = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         txtSubTotal = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
@@ -84,15 +85,20 @@ public class BookLoan extends javax.swing.JFrame {
         tableBook.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         tableBook.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "BookID", "Title", "Author", "Year", "Quantity", "Price"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableBookMouseClicked(evt);
@@ -207,13 +213,13 @@ public class BookLoan extends javax.swing.JFrame {
 
         tableBookLoan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "BookID", "Price"
             }
         ));
         jScrollPane2.setViewportView(tableBookLoan);
@@ -227,13 +233,16 @@ public class BookLoan extends javax.swing.JFrame {
             }
         });
 
-        btnEdit.setText("Edit");
-
         jLabel11.setText("Sub-total:");
 
         txtSubTotal.setEnabled(false);
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         txtBorrowDate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -278,12 +287,10 @@ public class BookLoan extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(133, 133, 133)
                                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,13 +320,10 @@ public class BookLoan extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(26, 26, 26))))
+                            .addComponent(btnCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         pack();
@@ -354,7 +358,29 @@ public class BookLoan extends javax.swing.JFrame {
     }//GEN-LAST:event_tableBookMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
+        if(memberlogin.getBorrowLimit() < 1){
+            JOptionPane.showMessageDialog(null, "YOU HAVE REACHED THE LIMIT TO BORROW!");
+        }
+        else{
+            for(int i = 0; i < bookSetList.getLength(); i++){
+                if(bookSetList.getEntry(i).getBookID().equals(txtBookID.getText())){
+                    if(orderedBook.contains(bookSetList.getEntry(i))){
+                        JOptionPane.showMessageDialog(null, "YOU HAVE ALREADY BORROW THIS BOOK!");
+                        break;
+                    }
+                    else{
+                        bookSetList.getEntry(i).setBookQuantity(bookSetList.getEntry(i).getBookQuantity() - 1);
+                        orderedBook.add(bookSetList.getEntry(i));
+                        calPrice = new BookLoanDetails(orderedBook);
+                        txtSubTotal.setText(String.valueOf(calPrice.getTotalprice()));
+                        tableBookLoan.setModel(insert_loan_data());
+                        memberlogin.setBorrowLimit(memberlogin.getBorrowLimit() - 1);
+                        tableBook.setModel(insert_book_data());
+                        break;
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
@@ -364,16 +390,12 @@ public class BookLoan extends javax.swing.JFrame {
         else {
             int yesno = JOptionPane.showConfirmDialog(null, "Confirm to process Check Out ?", "Process Check Out", JOptionPane.YES_NO_OPTION);
             if (yesno == JOptionPane.YES_OPTION) {
-                                                        // insert constructor
-                if(!bookloanList.add(new BookLoanDetails())){
-                    JOptionPane.showMessageDialog(null, "BOOK LIMIT EXIT!");
-                }
+                BookLoanDetails bk = new BookLoanDetails(memberlogin.getStudentID(), orderedBook);
+                bookloanArrList.add(bk);
+                System.out.println(bookloanArrList.getEntry(0).toString());
                 
-                Book[] bookarr = new Book[orderedshoes.size()];
-                orderedshoes.toArray(bookarr);
-                order = new order(bookarr);
-                CheckOut checkoutfrm = new CheckOut();
-                checkoutfrm.setVisible(true);
+                Login login = new Login();
+                login.setVisible(true);
                 this.setVisible(false);
                 this.dispose();
             }
@@ -386,6 +408,34 @@ public class BookLoan extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_txtLogoutActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tableBookLoan.getModel();
+        
+        int viewRow = tableBookLoan.getSelectedRow();
+        int modelRow = tableBookLoan.convertRowIndexToModel(viewRow); 
+        
+        if(modelRow > -1){
+            String id = model.getValueAt(modelRow, 0).toString();
+            for(int i = 0; i < orderedBook.getLength(); i++){
+                if(orderedBook.getEntry(i).getBookID().equals(id)){
+                    for(int x = 0; x < bookSetList.getLength(); x++){
+                        if(bookSetList.getEntry(x).getBookID().equals(orderedBook.getEntry(i).getBookID())){
+                            bookSetList.getEntry(x).setBookQuantity(bookSetList.getEntry(x).getBookQuantity() + 1);
+                            tableBook.setModel(insert_book_data());
+                            break;
+                        }
+                    }
+                    orderedBook.remove(i);
+                    calPrice = new BookLoanDetails(orderedBook);
+                    tableBookLoan.setModel(insert_loan_data());
+                    memberlogin.setBorrowLimit(memberlogin.getBorrowLimit() + 1);
+                    txtSubTotal.setText(String.valueOf(calPrice.getTotalprice()));
+                    break;
+                }
+            }
+        }     
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -474,35 +524,14 @@ public class BookLoan extends javax.swing.JFrame {
         };  
         
         model.addColumn("BookID");
-        model.addColumn("Quantity");
         model.addColumn("Price");
-        model.addColumn("Total price");
         
-        for(int i = 0; i < bookloanLList.getLength(); i++){
-            Object[] data = {bookloanLList.getEntry(i)};
-            model.addRow(data);
-        }
-        return model;
-        
-        for(shoes shoe : orderedshoes){
-            Object[] data = {shoe.getShoesid(),shoe.getName(),shoe.getPrice(),shoe.getQuantity(),shoe.getPrice()* shoe.getQuantity()};
+        for(int i = 0; i < orderedBook.getLength(); i++){
+            Object[] data = {orderedBook.getEntry(i).getBookID(), orderedBook.getEntry(i).getBookPrice()};
             model.addRow(data);
         }
         return model;
     }     
-    
-    private String get_sub_total_price(){
-        double total = 0;
-        
-        for(int i = 0; i < bookloanLList.getLength(); i++){
-            total += bookloanLList.getEntry(i).get
-        }
-        
-        for(shoes shoe : orderedshoes){
-           total += shoe.getPrice() * shoe.getQuantity();
-        }
-        return Double.toString(total);
-    }  
     
 //    private void setBorrowDate(){
 //        Calendar calendar = Calendar.getInstance();
@@ -567,7 +596,6 @@ public class BookLoan extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCheckout;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> cboSearchYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

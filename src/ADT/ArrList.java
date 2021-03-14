@@ -51,8 +51,8 @@ public class ArrList<T> implements ListInterface<T> {
     public T remove(int givenPosition) {
         T result = null;
 
-        if ((givenPosition >= 1) && (givenPosition <= length)) {
-            result = array[givenPosition - 1];
+        if ((givenPosition >= 0) && (givenPosition <= length)) {
+            result = array[givenPosition];
 
             if (givenPosition < length) {
                 removeGap(givenPosition);
@@ -152,8 +152,8 @@ public class ArrList<T> implements ListInterface<T> {
     private void removeGap(int givenPosition) {
         // move each entry to next lower position starting at entry after the
         // one removed and continuing until end of array
-        int removedIndex = givenPosition - 1;
-        int lastIndex = length - 1;
+        int removedIndex = givenPosition;
+        int lastIndex = length;
 
         for (int index = removedIndex; index < lastIndex; index++) {
             array[index] = array[index + 1];

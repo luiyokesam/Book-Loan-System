@@ -5,7 +5,9 @@
  */
 package Entity;
 
-import static Client.Data.studentArrList;
+import ADT.ArrList;
+import ADT.ListInterface;
+import static Client.Data.studentLList;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -19,103 +21,31 @@ import java.util.Objects;
  * @author Lui Yoke Sam
  */
 public class BookLoanDetails{
-    private String loanID;
+     private String loanID;
     private String studentID;
     private String borrowDate;
-    // bookID, bookTitle, bookPrice
-    Book[] book;
+    private ListInterface<Book> books = new ArrList<>();
     private double totalprice = 0.00;
     private String dueDate;
     private String returnDate;
     private String loanStatus = "Pending";
-    
     private static String latestloanid = "L000000";
-    
-//    private String set_current_date() {
-//        LocalDateTime currentDate = LocalDateTime.now();
-//        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        return currentDate.format(format);
-//    }
-    
-    private double calculatetotalprice(){
-        double total = 0;
-        
-        for (Book books : this.book) {
-            total += books.getBookPrice() * books.getBookQuantity();
-        }
-        return Math.round(total);
-    }
-    
-    public BookLoanDetails(Book[] books) {
-        this.book = books;
+
+    public BookLoanDetails(String studentID, ListInterface<Book> books) {
+        this.loanID = getnewloanid();
+        this.studentID = studentID;
+        this.borrowDate = setTodayDate();
+        this.books = books;
+        this.dueDate = setTomorrowDate();
+        this.returnDate = null;
         this.totalprice = calculatetotalprice();
     }
-    
-    // import data
-    public BookLoanDetails(String loanID, String studentID, String borrowDate, Book[] book, String dueDate, String returnDate, String loanStatus) {
-        this.loanID = getnewloanid();
-        this.studentID = studentID;
-        this.borrowDate = setBorrowDate();
-        this.book = book;
-        this.dueDate = setDueDate();
-        this.returnDate = returnDate;
-        this.loanStatus = loanStatus;
-    }
-    
-    public boolean BookLoanDetails(String studentID, Book[] book, String returnDate, String loanStatus) {
-        this.loanID = getnewloanid();
-        this.studentID = studentID;
-        this.borrowDate = setBorrowDate();
-        this.book = book;
-        this.dueDate = setDueDate();
-        this.returnDate = returnDate;
-        this.loanStatus = loanStatus;
-        
-        // put in payment
-        for(int i = 0; i < studentArrList.getLength(); i++){
-            if(studentArrList.getEntry(i).getStudentID().equals(studentID)){
-                if(book.length > studentArrList.getEntry(i).getBorrowLimit()){
-                    return false;
-                }
-                else{
-                    studentArrList.getEntry(i).setBorrowLimit(studentArrList.getEntry(i).getBorrowLimit() - book.length);
-                    break;
-                }
-            }
-        }
-        return true;
-    }
-    
-    private String setBorrowDate(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 0);
-        Date today = calendar.getTime();
-        
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
-        
-        String borrowdate = null;
-        
-        borrowdate = dateformat.format(today);
-//        txtBorrowDate.setText(borrowdate);
 
-        return borrowdate;
+    public BookLoanDetails(ListInterface<Book> books) {
+        this.books = books;
+        this.totalprice = calculatetotalprice();
     }
-    
-    private String setDueDate(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 3);
-        Date tomorrow = calendar.getTime();
-        
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
-        
-        String duedate = null;
-        
-        duedate = dateformat.format(tomorrow);
-//        txtDueDate.setText(duedate);
 
-        return duedate;
-    }
-    
     public String getLoanID() {
         return loanID;
     }
@@ -140,12 +70,20 @@ public class BookLoanDetails{
         this.borrowDate = borrowDate;
     }
 
-    public Book[] getBook() {
-        return book;
+    public ListInterface<Book> getBook() {
+        return books;
     }
 
-    public void setBook(Book[] book) {
-        this.book = book;
+    public void setBook(ListInterface<Book> books) {
+        this.books = books;
+    }
+
+    public double getTotalprice() {
+        return totalprice;
+    }
+
+    public void setTotalprice(double totalprice) {
+        this.totalprice = totalprice;
     }
 
     public String getDueDate() {
@@ -179,6 +117,45 @@ public class BookLoanDetails{
     public static void setLatestloanid(String latestloanid) {
         BookLoanDetails.latestloanid = latestloanid;
     }
+
+    private double calculatetotalprice(){
+        double total = 0;
+        
+        for(int i = 0; i < books.getLength(); i++){
+            total += books.getEntry(i).getBookPrice();
+        }
+        return Math.round(total);
+    }
+    
+    private String setTodayDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 0);
+        Date today = calendar.getTime();
+        
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+        
+        String borrowdate = null;
+        
+        borrowdate = dateformat.format(today);
+//        txtBorrowDate.setText(borrowdate);
+
+        return borrowdate;
+    }
+    
+    private String setTomorrowDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 3);
+        Date tomorrow = calendar.getTime();
+        
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
+        
+        String duedate = null;
+        
+        duedate = dateformat.format(tomorrow);
+//        txtDueDate.setText(duedate);
+
+        return duedate;
+    }
     
     private String getnewloanid() {
         String newloanid = null;
@@ -201,31 +178,7 @@ public class BookLoanDetails{
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final BookLoanDetails other = (BookLoanDetails) obj;
-        if (!Objects.equals(this.loanID, other.loanID)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "BookLoanDetails{" + "loanID=" + loanID + ", studentID=" + studentID + ", borrowDate=" + borrowDate + ", book=" + book + ", dueDate=" + dueDate + ", returnDate=" + returnDate + ", loanStatus=" + loanStatus + '}';
+        return "BookLoanDetails{" + "loanID=" + loanID + ", studentID=" + studentID + ", borrowDate=" + borrowDate + ", books=" + books + ", totalprice=" + totalprice + ", dueDate=" + dueDate + ", returnDate=" + returnDate + ", loanStatus=" + loanStatus + '}';
     }
 }
