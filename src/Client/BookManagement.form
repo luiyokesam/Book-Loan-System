@@ -151,10 +151,11 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtBookTitle" max="32767" attributes="0"/>
                               <Component id="txtAuthor" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="txtYear" pref="80" max="32767" attributes="0"/>
-                                      <Component id="txtBookID" min="-2" pref="79" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="lblYear" max="32767" attributes="0"/>
+                                      <Component id="txtYear" alignment="0" pref="80" max="32767" attributes="0"/>
+                                      <Component id="txtBookID" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
                                       <Component id="txtBookQty" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
                                       <Component id="txtBookPrice" alignment="0" max="32767" attributes="0"/>
                                   </Group>
@@ -198,7 +199,9 @@
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtYear" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                  <Component id="lblYear" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtBookQty" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -251,6 +254,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtYear">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtYearKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -289,6 +295,8 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtBookPrice">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblYear">
         </Component>
       </SubComponents>
     </Container>

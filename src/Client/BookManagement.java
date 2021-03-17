@@ -7,6 +7,7 @@ package Client;
 
 import static Client.Data.bookSetList;
 import Entity.Book;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,6 +22,7 @@ public class BookManagement extends javax.swing.JFrame {
      */
     public BookManagement() {
         initComponents();
+        textFalse();
         displayTable();
     }
 
@@ -51,6 +53,7 @@ public class BookManagement extends javax.swing.JFrame {
         txtBookQty = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtBookPrice = new javax.swing.JTextField();
+        lblYear = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtSearchName = new javax.swing.JTextField();
@@ -92,6 +95,12 @@ public class BookManagement extends javax.swing.JFrame {
         jLabel3.setText("Author:");
 
         jLabel4.setText("Year:");
+
+        txtYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtYearKeyPressed(evt);
+            }
+        });
 
         jLabel5.setText("Quantity:");
 
@@ -138,11 +147,12 @@ public class BookManagement extends javax.swing.JFrame {
                             .addComponent(txtBookTitle)
                             .addComponent(txtAuthor)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtYear, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                    .addComponent(txtBookID, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtBookQty, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtBookPrice))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblYear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtYear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                    .addComponent(txtBookID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtBookQty, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtBookPrice, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd)
@@ -172,7 +182,9 @@ public class BookManagement extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(lblYear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtBookQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -241,14 +253,36 @@ public class BookManagement extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (btnAdd.getText().equals("New")) {
             btnAdd.setText("Add");
+            textTrue();
+            reset();
             generateID();
+            btnEdit.setEnabled(false);
+            btnRemove.setEnabled(false);
         } 
         else{
-            clearTable();
-            newBook();
-            reset();
-            displayTable();
-            btnAdd.setText("New");
+
+           boolean addBook = true;
+          
+           if(txtBookTitle.getText().equals("") || txtAuthor.getText().equals("") || txtYear.getText().equals("") || txtBookQty.getText().equals("") || txtBookPrice.getText().equals("")){    
+              addBook = false;
+              JOptionPane.showMessageDialog(null, "PLEASE FILL ALL DETAILS!");
+          }
+// else if(Integer.parseInt(txtYear.getText())>5){
+//              addBook = false;
+//              JOptionPane.showMessageDialog(null, "Only can type 4 number !");
+//           }
+          else{
+              clearTable();
+              newBook();
+              reset();
+              displayTable();
+              textFalse();
+              btnAdd.setText("New");
+              btnEdit.setEnabled(true);
+              btnRemove.setEnabled(true);
+        }
+            
+           
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -267,19 +301,41 @@ public class BookManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_tableBookMouseClicked
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        clearTable();
-        deleteBook();
-        displayTable();
-        reset();
-        displayTable();
+       
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure want to delete this Book","Warning",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            clearTable();
+            deleteBook();
+            reset();
+            displayTable();
+        }
+  
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        editBook();
-        reset();
-        clearTable();
-        displayTable();
+        if (btnEdit.getText().equals("Edit")) {
+            btnEdit.setText("Update");
+            textTrue();          
+            btnAdd.setEnabled(false);
+            btnRemove.setEnabled(false);
+        }else{
+            editBook();
+            reset();
+            clearTable();
+            displayTable();
+            textFalse(); 
+            btnEdit.setText("Edit");
+            btnAdd.setEnabled(true);
+            btnRemove.setEnabled(true);
+        }
+       
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void txtYearKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtYearKeyPressed
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_txtYearKeyPressed
 
     /**
      * @param args the command line arguments
@@ -317,7 +373,11 @@ public class BookManagement extends javax.swing.JFrame {
     }
 
     public void generateID() {
-        int id = bookSetList.getLength() + 1;
+        int id =1;
+        if(!bookSetList.isEmpty()){
+            id = Integer.parseInt( bookSetList.getEntry(bookSetList.getLength()-1).getBookID().substring(2)) + 1;
+        }
+        
         String code = null;
 
         if(id < 10){
@@ -340,9 +400,11 @@ public class BookManagement extends javax.swing.JFrame {
         int BookYear = Integer.parseInt(txtYear.getText());
         int BookQuantity = Integer.parseInt(txtBookQty.getText());
         double BookPrice = Double.parseDouble(txtBookPrice.getText());
-
+      
         Book newBook = new Book(BookId, BookTitle, BookAuthor, BookYear, BookQuantity, BookPrice);
         bookSetList.add(newBook);
+  
+        
     }
 
     public void displayTable() {
@@ -389,6 +451,22 @@ public class BookManagement extends javax.swing.JFrame {
         txtBookQty.setText("");
         txtBookPrice.setText("");
     }
+    
+    public void textTrue(){
+        txtBookTitle.setEnabled(true);
+        txtAuthor.setEnabled(true);
+        txtYear.setEnabled(true);
+        txtBookQty.setEnabled(true);
+        txtBookPrice.setEnabled(true);
+    }
+    
+    public void textFalse(){
+        txtBookTitle.setEnabled(false);
+        txtAuthor.setEnabled(false);
+        txtYear.setEnabled(false);
+        txtBookQty.setEnabled(false);
+        txtBookPrice.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -406,6 +484,7 @@ public class BookManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblYear;
     private javax.swing.JTable tableBook;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookID;
