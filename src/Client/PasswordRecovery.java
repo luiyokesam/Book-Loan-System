@@ -307,7 +307,7 @@ public class PasswordRecovery extends javax.swing.JFrame {
                     Student studchgpw = new Student(studID, studName, studFaculty, newpass);
                     studentLList.replace(i, studchgpw);
                     System.out.print(studchgpw);
-                    
+                    JOptionPane.showMessageDialog(null, "PASSWORD CHANGED SUCCESSFULLY!");
                     resetAll();
                 }
             }

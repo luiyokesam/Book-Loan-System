@@ -13,7 +13,7 @@ public class ArrList<T> implements ListInterface<T> {
 
     private T[] array;
     private int length;
-    private static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 1000;
 
     public ArrList() {
         this(DEFAULT_CAPACITY);

@@ -24,7 +24,7 @@ public class LList<T> implements ListInterface<T> {
 
         if (isEmpty()) {
             firstNode = newNode;
-        } else {                        // add to end of nonempty list
+        } else {                            // add to end of nonempty list
             Node currentNode = firstNode;	// traverse linked list with p pointing to the current node
             while (currentNode.next != null) { // while have not reached the last node
                 currentNode = currentNode.next;
@@ -46,14 +46,14 @@ public class LList<T> implements ListInterface<T> {
             if (isEmpty() || (newPosition == 0)) { // case 1: add to beginning of list
                 newNode.next = firstNode;
                 firstNode = newNode;
-            } else {								// case 2: list is not empty and newPosition > 1
+            } else {                                // case 2: list is not empty and newPosition > 1
                 Node nodeBefore = firstNode;
                 for (int i = 1; i < newPosition; ++i) {
-                    nodeBefore = nodeBefore.next;		// advance nodeBefore to its next node
+                    nodeBefore = nodeBefore.next;   // advance nodeBefore to its next node
                 }
 
-                newNode.next = nodeBefore.next;	// make new node point to current node at newPosition
-                nodeBefore.next = newNode;		// make the node before point to the new node
+                newNode.next = nodeBefore.next;     // make new node point to current node at newPosition
+                nodeBefore.next = newNode;          // make the node before point to the new node
             }
 
             length++;
@@ -79,7 +79,7 @@ public class LList<T> implements ListInterface<T> {
                 }
                 result = nodeBefore.next.data;  // save entry to be removed
                 nodeBefore.next = nodeBefore.next.next;	// make node before point to node after the
-            } 																// one to be deleted (to disconnect node from chain)
+            } 	// one to be deleted (to disconnect node from chain)
 
             length--;
         }
