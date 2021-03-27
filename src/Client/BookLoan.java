@@ -52,8 +52,6 @@ public class BookLoan extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableBook = new javax.swing.JTable();
         txtLogout = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        txtSearchName = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         cboSearchYear = new javax.swing.JComboBox<>();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -112,8 +110,6 @@ public class BookLoan extends javax.swing.JFrame {
                 txtLogoutActionPerformed(evt);
             }
         });
-
-        jLabel8.setText("Search (by Name):");
 
         jLabel9.setText("Search (by Year):");
 
@@ -278,11 +274,7 @@ public class BookLoan extends javax.swing.JFrame {
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtLogout)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(264, 264, 264)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cboSearchYear, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,8 +298,6 @@ public class BookLoan extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtBorrowDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
                             .addComponent(cboSearchYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -606,7 +596,6 @@ public class BookLoan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -620,7 +609,6 @@ public class BookLoan extends javax.swing.JFrame {
     private javax.swing.JButton txtLogout;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtQuantity;
-    private javax.swing.JTextField txtSearchName;
     private javax.swing.JTextField txtSubTotal;
     private javax.swing.JTextField txtTitle;
     private javax.swing.JTextField txtYear;

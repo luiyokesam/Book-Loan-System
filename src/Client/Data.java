@@ -47,7 +47,7 @@ public class Data {
         Student student3 = new Student("1003", "Sor", "FOCS", "admin");
         Student student4 = new Student("1004", "Wong", "FOCS", "admin");
         
-        studentLList.add(student1);
+       studentLList.add(student1);
         studentLList.add(student2);
         studentLList.add(student3);
         studentLList.add(student4);
